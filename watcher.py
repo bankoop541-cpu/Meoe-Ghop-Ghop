@@ -1,11 +1,12 @@
 import subprocess
+import sys
 import time
 import logging
 from aiogram import Bot
 import asyncio
 
-API_TOKEN = '8784009909:AAEFEctfrhmMRqjmeORUsVF_KoD-k05IMt8'
-ADMIN_ID = '8400776382'
+API_TOKEN = '8633037899:AAHrL0xEQjd8ATwg-nBtD4COY-bGoveUKmA'
+ADMIN_ID = '5814552038'
 MAX_RESTARTS = 5
 RESTART_PERIOD = 60  # Seconds
 
@@ -14,7 +15,7 @@ bot = Bot(API_TOKEN)
 
 def start_bot():
     """Start the bot script as a subprocess."""
-    return subprocess.Popen(['python', 'm.py'])
+    return subprocess.Popen([sys.executable, 'm.py'])
 
 async def notify_admin(message):
     """Send a notification message to the admin via Telegram."""

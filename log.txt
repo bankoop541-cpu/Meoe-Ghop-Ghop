@@ -1,0 +1,12 @@
+UserID: 8752333488 | Time: 2026-04-02 15:48:36.094764 | Command: /bgmi | Target: 38.729.28.2 | Port: 17393 | Time: 120
+Username: @Rudra2936
+Target: 38.729.28.2
+Port: 17393
+Time: 120
+
+UserID: 5814552038 | Time: 2026-04-02 16:02:39.550883 | Command: /bgmi | Target: 20.204.16.218 | Port: 24331 | Time: 120
+Username: @Divypatel02
+Target: 20.204.16.218
+Port: 24331
+Time: 120
+

