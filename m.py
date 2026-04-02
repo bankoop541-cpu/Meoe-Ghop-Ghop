@@ -307,6 +307,7 @@ def handle_bgmi(message):
             # Update the last time the user ran the command
             bgmi_cooldown[user_id] = datetime.datetime.now()
         
+        command = message.text.split()
         if len(command) == 4:  # Updated to accept target, time, and port
             target = command[1]
             port = int(command[2])  # Convert port to integer
