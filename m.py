@@ -329,13 +329,15 @@ def handle_bgmi(message):
                     bot.reply_to(message, response)
 
                 threading.Thread(target=run_attack).start()
+                return # Added return to avoid UnboundLocalError
         else:
             response = "✅ Usage :- /bgmi <target> <port> <time>"  # Updated command syntax
             bot.reply_to(message, response)
+            return
+
     else:
         response = ("🚫 Unauthorized Access! 🚫\n\nOops! It seems like you don't have permission to use the /bgmi command. DM TO BUY ACCESS:- @mesh213")
-
-    bot.reply_to(message, response)
+        bot.reply_to(message, response)
 
 
 # Add /mylogs command to display logs recorded for bgmi and website commands
