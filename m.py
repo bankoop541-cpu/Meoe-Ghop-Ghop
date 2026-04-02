@@ -62,6 +62,7 @@ def log_command(user_id, target, port, time):
     
     with open(LOG_FILE, "a") as file:  # Open in "append" mode
         file.write(f"Username: {username}\nTarget: {target}\nPort: {port}\nTime: {time}\n\n")
+    print(f"DEBUG: Command logged for {username} on {target}:{port}") # Added for terminal visibility
 
 # Function to clear logs
 def clear_logs():
@@ -88,6 +89,7 @@ def record_command_logs(user_id, command, target=None, port=None, time=None):
     
     with open(LOG_FILE, "a") as file:
         file.write(log_entry + "\n")
+    print(f"LOG: {log_entry}") # Added for terminal visibility
 
 import datetime
 
